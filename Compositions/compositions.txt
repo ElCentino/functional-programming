@@ -1,0 +1,52 @@
+
+What is Composition
+
+    In Functional Programming, the output of a function being passed down as the input of another function is referred to as a composition.
+
+    function add(x, y) {
+        return x + y;
+    }
+
+    function mult(x, y) {
+        return x * y;
+    }
+
+    var z = add(3, 4);
+    z = mult(z, 5); //17
+
+    Over here the input of the next function mult is the output of the first function add.
+    This is referred to as manual composition
+    This method is impure because the value of z is changed by the function over time;
+
+    Compositin Utilities
+
+        Composition Utilities creates a pattern to write compositional code easier and without impurities
+
+        function add(x, y) {
+            return x + y;
+        }
+
+        function mult(x, y) {
+            return x * y;
+        }
+
+        function compose(func1, func2) {
+
+            return function () {
+
+                var args = [].slice.call(arguments); // arguments is an array reference to the parameters of a function
+
+                return func2(
+                    
+                   func1(args.shift(), args.shift()), args.shift()
+                )
+            }
+        }
+
+        var multNadd = compose(mult, add);
+
+        multNadd(3, 4, 5) //17
+
+
+        Over here we achieved the same results but this time without impurities;
+

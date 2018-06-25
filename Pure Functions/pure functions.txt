@@ -1,0 +1,69 @@
+
+<h1>What are Pure Functions</h1>
+
+<p>Pure Functions are functions that do not produce any side effects; they can interact with with states that change through out the life time of our program but do not change them</p>
+
+<h3>What are side effects</h3>
+
+<p>In Functionnal programming, side effects are produced from impure functions; when a function can access and change the value of a state that is global, the resulting process is know as a side effect </p>
+
+<article>
+    <code>
+        function foo(x) {
+
+            y = x + 10;
+            z = y + 10;
+        } 
+
+        var y = 10;
+        var z = 20;
+
+        console.log("value of Y: " + y); // 10
+        console.log("value of Z: " + z); // 20
+
+        foo(10);
+
+        console.log("value of Y: " + y); // 20
+        console.log("value of Z: " + z); // 30
+
+        foo(10);
+
+        console.log("value of Y: " + y); // 30
+        console.log("value of Z: " + z); // 40
+
+        foo(10);
+
+        console.log("value of Y: " + y); // 40
+        console.log("value of Z: " + z); // 50
+    </code>
+
+    <p>Impure functions can change the value of a global variable over time. To avoid this, we enclose the impure function into its own universe where all the values passed to it are of its own parameters</p>
+
+    <code>
+
+        function bar(x, y, z) {
+
+            foo(x);
+
+            return [y, z];
+
+            function foo(x) {
+
+                y = x + 10;
+                z = x + 10;
+            }
+        }
+
+        bar(4, 10); // [14, 20]
+        bar(4, 10); // [14, 20]
+        bar(10, 10); // [20, 20]
+        bar(10, 10); // [20, 20]
+
+    </code>
+
+    <p>The impure function foo is now wrapped around a function bar that takes a x, y, z as paramters and is accessed by the impure function foo. Bar then returns the values in form of a list or collection without changing a state at runtime. Bar is considered to be a Pure Function </p>
+    <p>A property essesential for a function to be pure is for it to be able to produce consistent results when passed the same arguments </p>
+
+    <p>Languages like Haskell and Scala enforce the use of pure functions; states accessed by functions cannot be changed at runtime except for states passed on as parameters</p>
+
+</article>  
